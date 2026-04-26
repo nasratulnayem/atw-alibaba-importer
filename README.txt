@@ -1,4 +1,4 @@
-=== Alibaba to WooCommerce Importer ===
+=== ATW — Alibaba Product Importer ===
 Contributors: nasratulnayem
 Tags: woocommerce, import, alibaba, products, chrome extension
 Requires at least: 6.0
@@ -12,7 +12,7 @@ Import Alibaba products into WooCommerce via a Chrome extension and REST API, wi
 
 == Description ==
 
-Alibaba to WooCommerce Importer connects a companion Chrome extension to your WooCommerce store. Browse any Alibaba product page, click the extension, and the product is created in WooCommerce automatically — including title, description, pricing, images, attributes, and variations.
+ATW — Alibaba Product Importer connects a companion Chrome extension to your WooCommerce store. Browse any Alibaba product page, click the extension, and the product is created in WooCommerce automatically — including title, description, pricing, images, attributes, and variations.
 
 **Key features:**
 
@@ -43,7 +43,7 @@ The plugin also facilitates importing product data that originates from Alibaba.
 
 == Installation ==
 
-1. Upload the `alibaba-woocommerce-importer` folder to `/wp-content/plugins/`.
+1. Upload the `atw-alibaba-importer` folder to `/wp-content/plugins/`.
 2. Activate the plugin through the **Plugins** menu in WordPress.
 3. Ensure WooCommerce is installed and active.
 4. Go to **ATW > Settings** in the WordPress admin menu.

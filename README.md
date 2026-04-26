@@ -1,4 +1,4 @@
-# Alibaba to WooCommerce Importer
+# ATW — Alibaba Product Importer
 
 > Import Alibaba products into WooCommerce in one click — via a companion Chrome extension, a secure REST API, and optional AI-powered description rewriting.
 

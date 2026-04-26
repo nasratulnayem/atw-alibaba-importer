@@ -41,7 +41,7 @@ function atw_fs(): ?object {
 	$atw_fs = fs_dynamic_init(
 		array(
 			'id'                  => AWI_FS_PLUGIN_ID,
-			'slug'                => 'alibaba-woocommerce-importer',
+			'slug'                => 'atw-alibaba-importer',
 			'type'                => 'plugin',
 			'public_key'          => AWI_FS_PUBLIC_KEY,
 			'is_premium'          => false,

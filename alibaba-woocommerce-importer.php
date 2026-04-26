@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Alibaba to WooCommerce Import
+ * Plugin Name: ATW — Alibaba Product Importer
  * Description: Import Alibaba products into WooCommerce via Chrome extension + REST API.
  * Version: 0.1.0
  * Author: Nasratul Nayem
@@ -48,7 +48,7 @@ final class AWI_Plugin {
 
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			add_action( 'admin_notices', function () {
-				echo '<div class="notice notice-error"><p>' . esc_html__( 'Alibaba to WooCommerce Import requires WooCommerce to be installed and active.', 'awi' ) . '</p></div>';
+				echo '<div class="notice notice-error"><p>' . esc_html__( 'ATW — Alibaba Product Importer requires WooCommerce to be installed and active.', 'awi' ) . '</p></div>';
 			} );
 			return;
 		}
