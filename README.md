@@ -6,7 +6,7 @@
 [![WooCommerce](https://img.shields.io/badge/WooCommerce-8.0%2B-purple?logo=woocommerce)](https://woocommerce.com)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php)](https://php.net)
 [![License](https://img.shields.io/badge/License-GPLv2%2B-green)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![Version](https://img.shields.io/badge/Version-0.1.0-orange)](https://github.com/nasratulnayem/alibaba-woocommerce-importer/releases)
+[![Version](https://img.shields.io/badge/Version-0.1.0-orange)](https://github.com/nasratulnayem/atw-alibaba-importer/releases)
 
 ---
 
@@ -74,7 +74,7 @@ POST /wp-json/awi/v1/import              Batch URL Import (Admin)
 
 ### Plugin
 
-1. Download the latest release from the [Releases page](https://github.com/nasratulnayem/alibaba-woocommerce-importer/releases/latest).
+1. Download the latest release from the [Releases page](https://github.com/nasratulnayem/atw-alibaba-importer/releases/latest).
 2. Upload to `/wp-content/plugins/` and activate.
 3. WooCommerce must be installed and active.
 
@@ -142,13 +142,14 @@ AI rewrites product **title**, **short description**, and **long description** u
 ## File Structure
 
 ```
-alibaba-woocommerce-importer/
-├── alibaba-woocommerce-importer.php   # Plugin entry point
-├── uninstall.php                      # Full cleanup on delete
+atw-alibaba-importer/
+├── atw-alibaba-importer.php           # Plugin entry point
 ├── README.txt                         # WordPress.org readme
+├── license.txt                        # GPL license
 ├── assets/
 │   └── url-import-admin.js            # Batch import UI script
-├── freemius/                          # Freemius SDK (not included — download separately)
+├── vendor/
+│   └── freemius/                      # Freemius SDK
 └── includes/
     ├── class-awi-admin.php            # Admin menus, settings, usage page
     ├── class-awi-rest.php             # REST endpoints + AI rewrite logic
@@ -156,8 +157,6 @@ alibaba-woocommerce-importer/
     ├── class-awi-url-import.php       # Batch URL import AJAX handlers
     ├── class-awi-rate-limiter.php     # Free plan import quota
     ├── class-awi-freemius.php         # Freemius SDK init (Pro plan)
-    ├── class-awi-importer.php         # CSV import (legacy)
-    └── class-awi-scrape-importer.php  # HTML scrape import (legacy)
 ```
 
 ---
@@ -168,8 +167,8 @@ This plugin uses [Freemius](https://freemius.com) for licence management.
 
 To activate Pro:
 1. Create a plugin at freemius.com and obtain your `plugin_id` and `public_key`.
-2. Place the Freemius SDK in the `freemius/` directory.
-3. Update `AWI_FS_PLUGIN_ID` and `AWI_FS_PUBLIC_KEY` in `includes/class-awi-freemius.php`.
+2. Ensure the Freemius SDK is present in `vendor/freemius/`.
+3. Update the Freemius app configuration in `includes/class-awi-freemius.php` if your dashboard values change.
 
 The plugin works fully without Freemius installed (free plan, no SDK required).
 

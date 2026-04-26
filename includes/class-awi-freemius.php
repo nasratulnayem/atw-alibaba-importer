@@ -1,76 +1,78 @@
 <?php
-/**
- * Freemius SDK initialisation.
- *
- * Replace AWI_FS_PLUGIN_ID and AWI_FS_PUBLIC_KEY with the values from your
- * Freemius dashboard (Plugins > Your Plugin > General > Plugin Details).
- *
- * The SDK directory must be placed at: alibaba-woocommerce-importer/freemius/
- * Download it from: https://freemius.com/help/documentation/selling-with-freemius/
- */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// ── Replace these two constants before going live ────────────────────────────
-define( 'AWI_FS_PLUGIN_ID', '28475' );
-define( 'AWI_FS_PUBLIC_KEY', 'pk_899cd9e07ac2b4825e4c96464c7e0' );
-// ─────────────────────────────────────────────────────────────────────────────
+if ( ! function_exists( 'atw_fs' ) ) {
 
-/**
- * Returns the Freemius singleton. Safe to call any time after plugins_loaded.
- * Returns null when the SDK files are not present (e.g. during development
- * before the vendor directory is populated), so callers must null-check.
- */
-function atw_fs(): ?object {
-	global $atw_fs;
+	function atw_fs(): ?object {
+		global $atw_fs;
 
-	if ( isset( $atw_fs ) ) {
+		if ( isset( $atw_fs ) ) {
+			return $atw_fs;
+		}
+
+		$sdk_start = AWI_PLUGIN_DIR . 'vendor/freemius/start.php';
+		if ( ! file_exists( $sdk_start ) ) {
+			return null;
+		}
+
+		require_once $sdk_start;
+
+		$atw_fs = fs_dynamic_init(
+			array(
+				'id'                  => '28475',
+				'slug'                => 'atw-alibaba-importer',
+				'premium_slug'        => 'atw-alibaba-product-importer-premium',
+				'type'                => 'plugin',
+				'public_key'          => 'pk_899cd9e07ac2b4825e4c96464c7e0',
+				'is_premium'          => false,
+				'premium_suffix'      => 'Pro',
+				'has_premium_version' => true,
+				'has_addons'          => false,
+				'has_paid_plans'      => true,
+				'is_org_compliant'    => true,
+				'wp_org_gatekeeper'   => 'OA7#BoRiBNqdf52FvzEf!!074aRLPs8fspif$7K1#4u4Csys1fQlCecVcUTOs2mcpeVHi#C2j9d09fOTvbC0HloPT7fFee5WdS3G',
+				'menu'                => array(
+					'slug'    => 'atw',
+					'contact' => false,
+					'support' => false,
+					'account' => true,
+					'pricing' => true,
+					'parent'  => array(
+						'slug' => 'atw',
+					),
+				),
+			)
+		);
+
+		$atw_fs->add_action( 'after_uninstall', 'atw_fs_uninstall_cleanup' );
+
+		do_action( 'atw_fs_loaded' );
+
 		return $atw_fs;
 	}
 
-	$sdk_start = AWI_PLUGIN_DIR . 'vendor/freemius/start.php';
-	if ( ! file_exists( $sdk_start ) ) {
-		// SDK not installed yet — plugin works in free mode silently.
-		return null;
+	atw_fs();
+}
+
+if ( ! function_exists( 'atwi_fs' ) ) {
+	function atwi_fs(): ?object {
+		return atw_fs();
 	}
+}
 
-	require_once $sdk_start;
-
-	$atw_fs = fs_dynamic_init(
-		array(
-			'id'                  => AWI_FS_PLUGIN_ID,
-			'slug'                => 'atw-alibaba-importer',
-			'type'                => 'plugin',
-			'public_key'          => AWI_FS_PUBLIC_KEY,
-			'is_premium'          => false,
-			'has_premium_version' => true,
-			'has_addons'          => false,
-			'has_paid_plans'      => true,
-			// Keep opt-in/out transparent — plugin fully works without account.
-			'is_org_compliant'    => true,
-			'menu'                => array(
-				'slug'    => 'atw',
-				'contact' => false,
-				'support' => false,
-				'account' => true,
-				'pricing' => true,
-				'parent'  => array(
-					'slug' => 'atw',
-				),
-			),
-			// Anonymous mode: users can skip opt-in and still use all free features.
-			'anonymous_support'   => true,
-			'is_live'             => true,
-		)
-	);
-
-	$atw_fs->add_action( 'after_uninstall', 'atw_fs_uninstall_cleanup' );
-
-	do_action( 'atw_fs_loaded' );
-
-	return $atw_fs;
+function atw_fs_is_pro(): bool {
+	$fs = atw_fs();
+	if ( $fs === null ) {
+		return false;
+	}
+	try {
+		return $fs->is_paying() || $fs->is_trial();
+	} catch ( Exception $e ) {
+		return false;
+	}
 }
 
 function atw_fs_uninstall_cleanup(): void {
@@ -115,20 +117,4 @@ function atw_fs_rmdir( string $dir ): void {
 		}
 	}
 	@rmdir( $dir ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
-}
-
-/**
- * Returns true when the current site has an active paid Freemius licence
- * (paying customer or active trial). Safe to call even when SDK is absent.
- */
-function atw_fs_is_pro(): bool {
-	$fs = atw_fs();
-	if ( $fs === null ) {
-		return false;
-	}
-	try {
-		return $fs->is_paying() || $fs->is_trial();
-	} catch ( Exception $e ) {
-		return false;
-	}
 }
