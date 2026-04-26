@@ -129,6 +129,22 @@ AI rewrites product **title**, **short description**, and **long description** u
 
 ---
 
+## Screenshots
+
+### 1. ATW Settings and AI Rewrite Controls
+
+![ATW Settings and AI Rewrite Controls](assets/screenshot-1.png)
+
+### 2. Application Password and Extension Connection
+
+![Application Password and Extension Connection](assets/screenshot-2.png)
+
+### 3. Batch URL Import Dashboard
+
+![Batch URL Import Dashboard](assets/screenshot-3.png)
+
+---
+
 ## Security
 
 - All admin actions protected by WordPress nonces
